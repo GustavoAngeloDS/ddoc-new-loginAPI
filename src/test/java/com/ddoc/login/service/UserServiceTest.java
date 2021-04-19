@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.ddoc.login.enums.UserSituaction;
+import com.ddoc.login.enums.UserSituation;
 import com.ddoc.login.model.User;
 import com.ddoc.login.repository.UserRepository;
 import com.ddoc.login.service.UserService;
@@ -33,7 +33,7 @@ public class UserServiceTest {
 	
 	/* Test variables and objects */
 	private static String newUserTestPassword = "teste123";
-	private static User newUserTest = new User(null, "Gustavo", "Angelo da Silva", "gustavosilvaangelo@gmail.com", newUserTestPassword, UserSituaction.ACTIVE, "20210417"); 
+	private static User newUserTest = new User("Gustavo", "Angelo da Silva", "gustavosilvaangelo@gmail.com", newUserTestPassword, UserSituation.ACTIVE, "20210417"); 
 		
 	@Test
 	@Order(1)

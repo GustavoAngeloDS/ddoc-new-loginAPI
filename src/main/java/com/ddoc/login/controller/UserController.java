@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ddoc.login.facade.RegistrationFacadeImpl;
 import com.ddoc.login.model.User;
 import com.ddoc.login.service.UserService;
-import com.ddoc.login.util.EncryptionAlgorithm;
 
 @RestController
 @RequestMapping("/users")
@@ -26,9 +26,12 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private RegistrationFacadeImpl registrationFacadeImpl;
+	
 	@PostMapping
 	public ResponseEntity<User> save(@Valid @RequestBody User user){
-		return userService.save(user);
+		return registrationFacadeImpl.createNewLogin(user);
 	}
 	
 	@PutMapping

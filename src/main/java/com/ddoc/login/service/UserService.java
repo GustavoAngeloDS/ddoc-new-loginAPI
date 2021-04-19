@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ddoc.login.enums.UserSituation;
 import com.ddoc.login.model.User;
 import com.ddoc.login.repository.UserRepository;
 import com.ddoc.login.util.EncryptionAlgorithm;
@@ -17,7 +18,7 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+		
 	public List<User> findAll(){
 		return userRepository.findAll();
 	}
@@ -33,7 +34,12 @@ public class UserService {
 	
 	public ResponseEntity<User> save(User user) {
 		user.setPassword(EncryptionAlgorithm.doCrypto(user.getPassword()));
-		return new ResponseEntity<User>(userRepository.save(user), HttpStatus.CREATED);
+		User newUserCreated = userRepository.save(user);
+						
+		if(userRepository.findById(newUserCreated.getId()).isPresent())
+			return new ResponseEntity<User>(newUserCreated, HttpStatus.CREATED);
+		else
+			return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	public ResponseEntity<User> delete(User user){
@@ -61,6 +67,16 @@ public class UserService {
 		if(userRepository.findById(user.getId()).isPresent()) { 
 			user.setPassword(EncryptionAlgorithm.doCrypto(user.getPassword()));			
 			return new ResponseEntity<User>(userRepository.save(user), HttpStatus.OK);
+		}
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	public ResponseEntity<User> updateUserSituaction(User user, UserSituation newUserSituation){
+		if(userRepository.findById(user.getId()).isPresent()) {
+			user.setUserSituation(newUserSituation);
+			userRepository.save(user);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

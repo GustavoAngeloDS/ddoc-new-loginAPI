@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.ddoc.login.enums.UserSituaction;
+import com.ddoc.login.enums.UserSituation;
 
 import lombok.Data;
 import lombok.Getter;
@@ -39,20 +39,19 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotBlank private String firstName;
-	@NotBlank private String lastName;
-	@NotBlank private String email;
-	@NotBlank private String password;
-    @NotNull private UserSituaction userSituaction;
-	@NotBlank private String registrationDate;
+	@NotNull private String firstName;
+	@NotNull private String lastName;
+	@NotNull private String email;
+	@NotNull private String password;
+	@NotNull private UserSituation userSituation;
+	@NotNull private String registrationDate;
 	
-	public User(Long id, String firstName, String lastName, String email, String password, UserSituaction userSituaction, String registrationDate) {
-		this.id = id;
+	public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email, @NotNull String password, @NotNull UserSituation userSituation, @NotNull String registrationDate) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.userSituaction = userSituaction;
+		this.userSituation = userSituation;
 		this.registrationDate = registrationDate;
 	}
 }
